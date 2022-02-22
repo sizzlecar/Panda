@@ -1,9 +1,6 @@
 package com.bluslee.panda;
 
-import com.bluslee.panda.lexical.analysis.Constants;
-import com.bluslee.panda.lexical.analysis.Events;
-import com.bluslee.panda.lexical.analysis.PandaStateMachineListener;
-import com.bluslee.panda.lexical.analysis.States;
+import com.bluslee.panda.lexical.analysis.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -61,6 +58,8 @@ public class PandaScriptApplication implements ApplicationRunner {
             extendedState.getVariables().put(Constants.StateMachineConstants.EXPRESSION_INDEX_KEY, i);
             String charStr = Character.toString(express.charAt(i));
             String currentStateName = statesEventsStateMachine.getState().getId().name();
+            BaseTokens baseTokens = TokenUtils.tokenBaseType(express.charAt(i));
+            extendedState.getVariables().put(Constants.StateMachineConstants.BASE_TOKEN_KEY, baseTokens);
             statesEventsStateMachine.sendEvent(Events.INPUT);
             String nextStateName = statesEventsStateMachine.getState().getId().name();
             log.info("Current state:{}, Send event char: {}, Next state: {}",

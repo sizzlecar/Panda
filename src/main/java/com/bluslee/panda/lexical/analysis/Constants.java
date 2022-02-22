@@ -1,7 +1,5 @@
 package com.bluslee.panda.lexical.analysis;
 
-import org.springframework.statemachine.StateMachine;
-
 /**
  * 词法分析相关常量
  * @author jinxuan.che
@@ -21,6 +19,9 @@ public interface Constants {
 
         //解析表达式得到的token
         String TOKENS_KEY = "tokens";
+
+        //expression_index 对应字符对应的token
+        String BASE_TOKEN_KEY = "base_token";
     }
 
 }

@@ -143,21 +143,19 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     public Guard<States, Events> toNumberGuard() {
         return context -> {
             ExtendedState extendedState = context.getExtendedState();
-            String code = extendedState.get(Constants.StateMachineConstants.EXPRESSION_KEY, String.class);
-            Integer index = extendedState.get(Constants.StateMachineConstants.EXPRESSION_INDEX_KEY, Integer.class);
-            char charAt = code.charAt(index);
-            BaseTokens baseTokens = TokenUtils.tokenBaseType(charAt);
+            BaseTokens baseTokens = extendedState.get(Constants.StateMachineConstants.BASE_TOKEN_KEY, BaseTokens.class);
             if (BaseTokens.NUMBER != baseTokens) {
-                log.error("toNumberGuard：下一个字符不是数字，不能进入数字状态");
+                log.info("toNumberGuard：下一个字符不是数字，不能进入数字状态");
                 return false;
             }
             //当前状态
             State<States, Events> currentState = context.getStateMachine().getState();
             States currentStateId = currentState.getId();
             if (States.NUMBER == currentStateId || States.INITIAL == currentStateId || States.OPERATOR == currentStateId) {
+                log.info("state machine 进入数字状态");
                 return true;
             } else {
-                log.info("当前状态不属于 数字，初始化 无法进入数字状态");
+                log.info("当前状态不属于数字,初始化,操作符 无法进入数字状态");
                 return false;
             }
         };
@@ -165,14 +163,14 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
     @Bean
     public Guard<States, Events> toOperatorGuard() {
-        List<BaseTokens> operatorList = Arrays.asList(BaseTokens.EQUALS, BaseTokens.ADD, BaseTokens.SUB, BaseTokens.MULTI, BaseTokens.DIV, BaseTokens.MORE, BaseTokens.LESS, BaseTokens.POINT);
+        List<BaseTokens> operatorList = Arrays.asList(BaseTokens.EQUALS, BaseTokens.ADD,
+                BaseTokens.SUB, BaseTokens.MULTI, BaseTokens.DIV,
+                BaseTokens.MORE, BaseTokens.LESS, BaseTokens.POINT);
         return context -> {
             ExtendedState extendedState = context.getExtendedState();
-            String code = extendedState.get(Constants.StateMachineConstants.EXPRESSION_KEY, String.class);
-            Integer index = extendedState.get(Constants.StateMachineConstants.EXPRESSION_INDEX_KEY, Integer.class);
-            BaseTokens baseTokens = TokenUtils.tokenBaseType(code.charAt(index));
+            BaseTokens baseTokens = extendedState.get(Constants.StateMachineConstants.BASE_TOKEN_KEY, BaseTokens.class);
             if (!operatorList.contains(baseTokens)) {
-                log.error("toOperatorGuard下一个字符不是操作符不能进入操作符状态");
+                log.info("toOperatorGuard下一个字符不是操作符不能进入操作符状态");
                 return false;
             }
             log.info("state machine 进入操作符号状态");
@@ -184,12 +182,10 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     public Guard<States, Events> toIdGuard() {
         return context -> {
             ExtendedState extendedState = context.getExtendedState();
-            String code = extendedState.get(Constants.StateMachineConstants.EXPRESSION_KEY, String.class);
-            Integer index = extendedState.get(Constants.StateMachineConstants.EXPRESSION_INDEX_KEY, Integer.class);
-            BaseTokens baseTokens = TokenUtils.tokenBaseType(code.charAt(index));
+            BaseTokens baseTokens = extendedState.get(Constants.StateMachineConstants.BASE_TOKEN_KEY, BaseTokens.class);
             List<BaseTokens> idTokens = Arrays.asList(BaseTokens.LETTER_LOWER, BaseTokens.LETTER_UPPER, BaseTokens.NUMBER);
             if (!idTokens.contains(baseTokens)) {
-                log.error("toIdGuard下一个字符不是字母或数字，不能进入ID状态");
+                log.info("toIdGuard下一个字符不是字母或数字，不能进入ID状态");
                 return false;
             }
             State<States, Events> currentState = context.getStateMachine().getState();
@@ -198,7 +194,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 log.info("state machine 进入ID状态");
                 return true;
             } else {
-                log.info("当前状态不属于 ID，初始化 无法进入ID状态");
+                log.info("当前状态不属于 ID, 初始化, 操作符 无法进入ID状态");
                 return false;
             }
         };
@@ -208,13 +204,12 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     public Guard<States, Events> toInitGuard() {
         return context -> {
             ExtendedState extendedState = context.getExtendedState();
-            String code = extendedState.get(Constants.StateMachineConstants.EXPRESSION_KEY, String.class);
-            Integer index = extendedState.get(Constants.StateMachineConstants.EXPRESSION_INDEX_KEY, Integer.class);
-            BaseTokens baseTokens = TokenUtils.tokenBaseType(code.charAt(index));
+            BaseTokens baseTokens = extendedState.get(Constants.StateMachineConstants.BASE_TOKEN_KEY, BaseTokens.class);
             if (baseTokens != null && BaseTokens.SPACE != baseTokens) {
                 log.error("当前字符是有效字符不能进入初始状态");
                 return false;
             }
+            log.info("state machine 进入初始化状态");
             return true;
         };
     }

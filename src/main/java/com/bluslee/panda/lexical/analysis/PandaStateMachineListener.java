@@ -15,12 +15,12 @@ public class PandaStateMachineListener extends StateMachineListenerAdapter<State
 
     @Override
     public void stateMachineStopped(StateMachine<States, Events> stateMachine) {
+        log.info("stateMachineStopped is running");
         ExtendedState extendedState = stateMachine.getExtendedState();
-        String code = extendedState.get("code", String.class);
-        Integer index = extendedState.get("index", Integer.class);
-        log.info("stateMachineStopped code:{}, index:{}", code, index);
-        List<String> tokenList = extendedState.get("tokenList", List.class);
-        Integer tokenIndex = extendedState.get("tokenIndex", Integer.class);
+        String code = extendedState.get(Constants.StateMachineConstants.EXPRESSION_KEY, String.class);
+        Integer index = extendedState.get(Constants.StateMachineConstants.EXPRESSION_INDEX_KEY, Integer.class);
+        List<String> tokenList = extendedState.get(Constants.StateMachineConstants.TOKENS_KEY, List.class);
+        Integer tokenIndex = extendedState.get(Constants.StateMachineConstants.TOKEN_INDEX_KEY, Integer.class);
         if(tokenIndex <= index) {
             if (index == code.length() - 1) {
                 tokenList.add(code.substring(tokenIndex));
