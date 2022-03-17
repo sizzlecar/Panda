@@ -22,6 +22,9 @@ public interface Constants {
 
         //expression_index 对应字符对应的token
         String BASE_TOKEN_KEY = "base_token";
+
+        //token reader
+        String TOKEN_READER = "token_reader";
     }
 
 }

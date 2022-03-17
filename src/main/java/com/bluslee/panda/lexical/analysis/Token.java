@@ -1,30 +1,20 @@
 package com.bluslee.panda.lexical.analysis;
 
-import lombok.Data;
-
 /**
- * @author jinxuan.che
+ * token 接口
+ * @author chejinxuan
  */
-@Data
-public class Token {
+public interface Token {
 
     /**
-     * token 类型
+     * 返回 token 类型
+     * @return token 的类型
      */
-    private Tokens type;
+    Tokens getType();
 
     /**
-     * from index
+     * token 内容
+     * @return token 内容
      */
-    private Integer fromIndex;
-
-    /**
-     * to index
-     */
-    private Integer toIndex;
-
-    /**
-     * 内容
-     */
-    private String content;
+    String getContent();
 }
