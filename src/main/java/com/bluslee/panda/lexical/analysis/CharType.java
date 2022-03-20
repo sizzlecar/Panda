@@ -64,5 +64,25 @@ public enum CharType {
     /**
      * 空格
      */
-    SPACE
+    SPACE,
+
+    /**
+     * windows 换行符 \r\n
+     */
+    NEW_LINE_WINDOWS,
+
+    /**
+     * posix 换行符 \n
+     */
+    NEW_LINE_POSIX,
+
+    /**
+     * (
+     */
+    LEFT_BRACKETS,
+
+    /**
+     * )
+     */
+    RIGHT_BRACKETS
 }

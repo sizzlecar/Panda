@@ -6,6 +6,8 @@ import org.springframework.statemachine.ExtendedState;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 /**
  * 默认词法分析器
  * @author chejinxuan
@@ -27,6 +29,7 @@ public class DefaultLexer implements Lexer {
         ExtendedState extendedState = statesEventsStateMachine.getExtendedState();
         extendedState.getVariables().put(Constants.StateMachineConstants.EXPRESSION_KEY, script);
         extendedState.getVariables().put(Constants.StateMachineConstants.TOKEN_INDEX_KEY, 0);
+        extendedState.getVariables().put(Constants.StateMachineConstants.TOKENS_KEY, new ArrayList<Token>());
         for (int i = 0; i < script.length(); i++) {
             extendedState.getVariables().put(Constants.StateMachineConstants.EXPRESSION_INDEX_KEY, i);
             String charStr = Character.toString(script.charAt(i));
@@ -42,12 +45,6 @@ public class DefaultLexer implements Lexer {
         }
         //关闭状态机
         statesEventsStateMachine.stop();
-        TokenReader tokenReader = extendedState.get(Constants.StateMachineConstants.TOKEN_READER, TokenReader.class);
-        Token token = tokenReader.next();
-        while (token != null) {
-            log.info("token name :{}, token content :{}", token.getType(), token.getContent());
-            token = tokenReader.next();
-        }
-        return tokenReader;
+        return extendedState.get(Constants.StateMachineConstants.TOKEN_READER, TokenReader.class);
     }
 }

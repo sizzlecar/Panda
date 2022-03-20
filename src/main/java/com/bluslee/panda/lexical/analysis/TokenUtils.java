@@ -75,6 +75,18 @@ public class TokenUtils {
         Function<Character, CharType> space = character -> character.equals(' ') ? CharType.SPACE : null;
         FUNCTION_LIST.add(space);
 
+        //换行
+        Function<Character, CharType> newLine = character -> character.equals('\n') ? CharType.NEW_LINE_POSIX : null;
+        FUNCTION_LIST.add(newLine);
+
+        //(
+        Function<Character, CharType> left = character -> character.equals('(') ? CharType.NEW_LINE_POSIX : null;
+        FUNCTION_LIST.add(left);
+
+        //)
+        Function<Character, CharType> right = character -> character.equals(')') ? CharType.NEW_LINE_POSIX : null;
+        FUNCTION_LIST.add(right);
+
     }
 
     /**

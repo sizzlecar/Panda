@@ -16,9 +16,9 @@ import java.util.stream.Stream;
 /**
  * @author jinxuan.che
  */
-@SpringBootApplication
 @Slf4j
 @RequiredArgsConstructor
+@SpringBootApplication
 public class PandaScriptApplication implements ApplicationRunner {
 
     private final Lexer lexer;
