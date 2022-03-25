@@ -17,6 +17,16 @@ public enum ASTType {
     EXPRESSION,
 
     /**
+     * 加法表达式
+     */
+    ADDITIVE,
+
+    /**
+     * 乘法表达式
+     */
+    MULTIPLICATIVE,
+
+    /**
      * 整数
      */
     INT,

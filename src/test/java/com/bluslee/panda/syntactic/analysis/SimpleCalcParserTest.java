@@ -7,24 +7,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-/**
- * CalcParserTest
- * @author chejinxuan
- */
-public class CalcParserTest extends PandaScriptApplicationTests {
+public class SimpleCalcParserTest extends PandaScriptApplicationTests {
 
     @Autowired
-    @Qualifier("calcParser")
-    Parser parser;
+    @Qualifier("simpleCalcParser")
+    private Parser parser;
 
     @Autowired
     Lexer lexer;
 
     @Test
     public void parseTest() {
-        TokenReader tokenReader = lexer.parse("1");
-        ASTNode astNode = parser.parse(tokenReader);
-        System.out.println(astNode.toString());
+        TokenReader tokenReader = lexer.parse("1*2+3/5");
+        parser.parse(tokenReader);
     }
 
 }

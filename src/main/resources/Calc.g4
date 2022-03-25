@@ -1,0 +1,10 @@
+grammar Calc ;
+programmer: (additive NEWLINE)* ;
+additive: multiplicative | multiplicative (ADD|SUB) additive ;
+multiplicative: INT | INT (MULTI|DIV) multiplicative ;
+NEWLINE : [\r\n]+ ;
+INT     : [0-9]+ ;
+ADD     : '+' ;
+SUB     : '-' ;
+MULTI   : '*' ;
+DIV     : '/' ;

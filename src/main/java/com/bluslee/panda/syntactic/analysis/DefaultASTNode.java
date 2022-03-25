@@ -1,5 +1,6 @@
 package com.bluslee.panda.syntactic.analysis;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,14 +70,25 @@ public class DefaultASTNode implements ASTNode {
         return astType;
     }
 
+    @Override
     public void setParent(ASTNode parent) {
         this.parent = parent;
     }
 
+    @Override
     public void setChildList(List<ASTNode> childList) {
         this.childList = childList;
     }
 
+    @Override
+    public void addChild(ASTNode node) {
+        if (this.childList == null) {
+            childList = new ArrayList<>();
+        }
+        childList.add(node);
+    }
+
+    @Override
     public void setASTType(ASTType astType) {
         this.astType = astType;
     }
@@ -86,6 +98,7 @@ public class DefaultASTNode implements ASTNode {
         return content;
     }
 
+    @Override
     public void setContent(String content) {
         this.content = content;
     }

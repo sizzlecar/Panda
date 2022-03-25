@@ -192,7 +192,8 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
             }
             State<States, Events> currentState = context.getStateMachine().getState();
             States currentStateId = currentState.getId();
-            if (States.ID == currentStateId || States.INITIAL == currentStateId || States.OPERATOR == currentStateId) {
+            if (States.ID == currentStateId || (States.INITIAL == currentStateId && !charType.equals(CharType.NUMBER))
+                    || (States.OPERATOR == currentStateId && !charType.equals(CharType.NUMBER))) {
                 log.info("state machine 进入ID状态");
                 return true;
             } else {

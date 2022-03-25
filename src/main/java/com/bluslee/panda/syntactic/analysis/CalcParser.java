@@ -49,14 +49,12 @@ public class CalcParser implements Parser {
             return null;
         }
         ASTNode childNode;
-        childNode = parseInt(tokenReader);
+        childNode = parseMultiExpression(tokenReader, root);
         if (childNode == null) {
-            //假设是乘法表达式
-            childNode = parseMultiExpression(tokenReader, root);
+            childNode = parseAddExpression(tokenReader, root);
         }
         if (childNode == null) {
-            //如果加法表达式解析为空，则假设为乘法表达式继续解析
-            childNode = parseAddExpression(tokenReader, root);
+            childNode = parseInt(tokenReader);
         }
         root.setChildList(Collections.singletonList(childNode));
         return parse(tokenReader, root);
