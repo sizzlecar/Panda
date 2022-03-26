@@ -17,6 +17,11 @@ public enum ASTType {
     EXPRESSION,
 
     /**
+     * INT | '(' ADDITIVE ')'
+     */
+    PRIMARY,
+
+    /**
      * 加法表达式
      */
     ADDITIVE,

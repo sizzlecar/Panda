@@ -13,7 +13,7 @@ public class LexerTest extends PandaScriptApplicationTests {
 
     @Test
     public void parseTest() {
-        TokenReader tokenReader = lexer.parse("1");
+        TokenReader tokenReader = lexer.parse("( 1 + 2 ) + 3");
         while (tokenReader.peek() != null) {
             Token token = tokenReader.next();
             log.debug("type:{}, content: {}", token.getType(), token.getContent());

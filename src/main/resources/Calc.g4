@@ -1,10 +1,13 @@
 grammar Calc ;
 programmer: (additive NEWLINE)* ;
-additive: multiplicative | multiplicative (ADD|SUB) additive ;
-multiplicative: INT | INT (MULTI|DIV) multiplicative ;
+additive: multiplicative | multiplicative (ADD|SUB) additive;
+multiplicative: primary | primary (MULTI|DIV) multiplicative;
+primary: INT | LEFT additive RIGHT;
 NEWLINE : [\r\n]+ ;
 INT     : [0-9]+ ;
 ADD     : '+' ;
 SUB     : '-' ;
 MULTI   : '*' ;
 DIV     : '/' ;
+LEFT    : '(' ;
+RIGHT   : ')' ;

@@ -22,9 +22,6 @@ public class CalcParserTest extends PandaScriptApplicationTests {
 
     @Test
     public void parseTest() {
-        TokenReader tokenReader = lexer.parse("1");
-        ASTNode astNode = parser.parse(tokenReader);
-        System.out.println(astNode.toString());
     }
 
 }

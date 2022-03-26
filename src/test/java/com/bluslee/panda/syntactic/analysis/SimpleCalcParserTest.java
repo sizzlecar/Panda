@@ -18,7 +18,7 @@ public class SimpleCalcParserTest extends PandaScriptApplicationTests {
 
     @Test
     public void parseTest() {
-        TokenReader tokenReader = lexer.parse("1*2+3/5");
+        TokenReader tokenReader = lexer.parse("( 1 + 2 ) * 2 - 1 / ( 66 * ( 1 - 2 ) )");
         parser.parse(tokenReader);
     }
 

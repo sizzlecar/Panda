@@ -163,11 +163,13 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         };
     }
 
+    //需要将不同的操作符拆成不同的状态，否则不同的操作符会粘在一起 todo
     @Bean
     public Guard<States, Events> toOperatorGuard() {
         List<CharType> operatorList = Arrays.asList(CharType.EQUALS, CharType.ADD,
                 CharType.SUB, CharType.MULTI, CharType.DIV,
-                CharType.MORE, CharType.LESS, CharType.POINT);
+                CharType.MORE, CharType.LESS, CharType.POINT,
+                CharType.LEFT_BRACKETS, CharType.RIGHT_BRACKETS);
         return context -> {
             ExtendedState extendedState = context.getExtendedState();
             CharType charType = extendedState.get(Constants.StateMachineConstants.BASE_TOKEN_KEY, CharType.class);

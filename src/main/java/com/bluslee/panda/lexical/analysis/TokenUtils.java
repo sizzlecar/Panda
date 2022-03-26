@@ -80,11 +80,11 @@ public class TokenUtils {
         FUNCTION_LIST.add(newLine);
 
         //(
-        Function<Character, CharType> left = character -> character.equals('(') ? CharType.NEW_LINE_POSIX : null;
+        Function<Character, CharType> left = character -> character.equals('(') ? CharType.LEFT_BRACKETS : null;
         FUNCTION_LIST.add(left);
 
         //)
-        Function<Character, CharType> right = character -> character.equals(')') ? CharType.NEW_LINE_POSIX : null;
+        Function<Character, CharType> right = character -> character.equals(')') ? CharType.RIGHT_BRACKETS : null;
         FUNCTION_LIST.add(right);
 
     }

@@ -11,15 +11,17 @@ import java.util.Arrays;
 /**
  * grammar Calc ;
  * programmer: (additive NEWLINE)* ;
- * additive: multiplicative | multiplicative (ADD|SUB) additive ;
- * multiplicative: INT | INT (MULTI|DIV) multiplicative ;
+ * additive: multiplicative | multiplicative (ADD|SUB) additive;
+ * multiplicative: primary | primary (MULTI|DIV) multiplicative;
+ * primary: INT | LEFT additive RIGHT;
  * NEWLINE : [\r\n]+ ;
  * INT     : [0-9]+ ;
  * ADD     : '+' ;
  * SUB     : '-' ;
  * MULTI   : '*' ;
  * DIV     : '/' ;
- *
+ * LEFT    : '(' ;
+ * RIGHT   : ')' ;
  * @author chejinxuan
  */
 @Slf4j
@@ -80,7 +82,7 @@ public class SimpleCalcParser implements Parser {
      */
     private ASTNode parseMultiplicativeExpress(TokenReader tokenReader, ASTNode root) {
         ASTNode multiplicativeExpressNode = new DefaultASTNode(root, ASTType.MULTIPLICATIVE);
-        ASTNode astNode = parseInt(tokenReader);
+        ASTNode astNode = parsePrimary(tokenReader, multiplicativeExpressNode);
         if (astNode != null) {
             Token token = tokenReader.peek();
             if (token != null
@@ -104,18 +106,40 @@ public class SimpleCalcParser implements Parser {
     }
 
     /**
-     * 解析整数
+     * 解析 整数或括号表达式
      *
      * @param tokenReader token 流
      * @return ASTNode
      */
-    private ASTNode parseInt(TokenReader tokenReader) {
+    private ASTNode parsePrimary(TokenReader tokenReader, ASTNode root) {
         Token token = tokenReader.peek();
-        if (!Tokens.NUMBER.equals(token.getType())) {
+        ASTNode primary = new DefaultASTNode(root, ASTType.PRIMARY);
+        if (Tokens.NUMBER.equals(token.getType())) {
+            //数字
+            tokenReader.next();
+            ASTNode numberNode = new DefaultASTNode(primary, ASTType.INT, token.getContent());
+            primary.addChild(numberNode);
+        } else if (Tokens.OPERATOR.equals(token.getType()) && "(".equals(token.getContent())) {
+            // 左括号
+            ASTNode left = new DefaultASTNode(primary, ASTType.LEFT_BRACKETS, token.getContent());
+            tokenReader.next();
+            //加法表达式
+            ASTNode additiveNode = parseAdditiveExpress(tokenReader, primary);
+            if (additiveNode == null) {
+                throw new RuntimeException("expression that after of '(' is required");
+            }
+            //右括号
+            Token nextPeekToken = tokenReader.peek();
+            if (nextPeekToken == null || !")".equals(nextPeekToken.getContent())) {
+                throw new RuntimeException("')' is required");
+            }
+            ASTNode right = new DefaultASTNode(primary, ASTType.RIGHT_BRACKETS, nextPeekToken.getContent());
+            tokenReader.next();
+            primary.setChildList(Arrays.asList(left, additiveNode, right));
+        } else {
             return null;
         }
-        tokenReader.next();
-        return new DefaultASTNode(ASTType.INT, token.getContent());
+        return primary;
     }
 
     /**
